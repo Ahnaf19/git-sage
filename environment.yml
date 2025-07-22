@@ -1,0 +1,13 @@
+name: gitsage
+channels:
+  - defaults
+  - conda-forge
+
+dependencies:
+  - python=3.12.11
+  - pip
+  - gitpython=3.1.32
+  - jupyter
+  - nodejs
+  - pip:
+      - uv==0.8.0
