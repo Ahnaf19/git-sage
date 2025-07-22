@@ -75,22 +75,22 @@ Perfect for onboarding to new projects, code reviews, architectural understandin
 
 ### Phase 2: Code Parsing & Chunking
 
-[] **Tree-sitter Parsing**: Generates Abstract Syntax Trees (AST) for each file
-[] **Semantic Chunking**: Splits code into meaningful units (functions, classes, modules)
-[] **Metadata Extraction**: Captures file paths, line numbers, and code structure
+- **Tree-sitter Parsing**: Generates Abstract Syntax Trees (AST) for each file []
+- **Semantic Chunking**: Splits code into meaningful units (functions, classes, modules) []
+- **Metadata Extraction**: Captures file paths, line numbers, and code structure []
 
 ### Phase 3: Embedding Generation
 
-[] **Text Preprocessing**: Prepares code chunks for embedding
-[] **Vector Generation**: Creates embeddings using sentence transformers
-[] **ChromaDB Storage**: Stores vectors with metadata for efficient retrieval
+- **Text Preprocessing**: Prepares code chunks for embedding []
+- **Vector Generation**: Creates embeddings using sentence transformers []
+- **ChromaDB Storage**: Stores vectors with metadata for efficient retrieval []
 
 ### Phase 4: Query Processing
 
-[] **Query Embedding**: Converts user questions to vector representations
-[] **Similarity Search**: Finds most relevant code chunks using ChromaDB
-[] **Context Assembly**: Gathers relevant code snippets and metadata
-[] **LLM Generation**: Uses Ollama to generate comprehensive answers
+- **Query Embedding**: Converts user questions to vector representations []
+- **Similarity Search**: Finds most relevant code chunks using ChromaDB []
+- **Context Assembly**: Gathers relevant code snippets and metadata []
+- **LLM Generation**: Uses Ollama to generate comprehensive answers []
 
 ## Project Structure
 
