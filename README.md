@@ -198,8 +198,10 @@ make test      # Run tests (optional)
 Pre-commit hooks setup & usage (optional):
 
 ```bash
+pre-commit clean
 pre-commit install # Sets up pre-commit hooks
-pre-commit migrate-config # auto migrate config, run if needed
+pre-commit autoupdate
+pre-commit migrate-config
 pre-commit run --all-files # run pre-commit manually
 ```
 
