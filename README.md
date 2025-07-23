@@ -28,6 +28,10 @@ GitSage is an open-source LLM-powered tool that explains and answers questions a
 ![Loguru](https://img.shields.io/badge/loguru-FF8700?style=for-the-badge&logo=loguru&logoColor=white)
 ![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue?style=for-the-badge)
 
+[![CI](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml/badge.svg)](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml)
+[![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://github.com/Ahnaf19/git-sage)
+[![Code style: pre-commit](https://img.shields.io/badge/code%20style-pre--commit-brightgreen)](https://github.com/pre-commit/pre-commit)
+
 ## Overview
 
 GitSage transforms how developers explore and understand codebases by combining the power of:
