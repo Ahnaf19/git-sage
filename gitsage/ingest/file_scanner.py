@@ -33,7 +33,7 @@ SUPPORTED_CONFIG_FILES = {
 }
 
 
-def scan_repo(repo_path: Union[str, Path]) -> dict:
+def scan_repo(repo_path: Union[str, Path]) -> dict[str, list[str]]:
     repo_path = Path(repo_path)
     code_files = []
     config_files = []
