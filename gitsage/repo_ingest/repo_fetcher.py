@@ -1,7 +1,7 @@
 # gitsage/repo_ingest/repo_fetcher.py
 
-import os
 import tempfile
+from pathlib import Path
 from typing import Optional
 
 import requests
@@ -13,7 +13,7 @@ class RepoFetcher:
     def __init__(self, repo_url: str, mode: str = "clone", target_dir: str = "./repos", token: Optional[str] = None):
         self.repo_url = repo_url
         self.mode = mode
-        self.target_dir = target_dir
+        self.target_dir = Path(target_dir)
         self.token = token
 
     def fetch(self) -> str:
@@ -28,18 +28,18 @@ class RepoFetcher:
         return self.repo_url.rstrip("/").split("/")[-1].replace(".git", "")
 
     def _clone_repo(self) -> str:
-        os.makedirs(self.target_dir, exist_ok=True)
+        self.target_dir.mkdir(parents=True, exist_ok=True)
         repo_name = self._extract_repo_name()
-        repo_path = os.path.join(self.target_dir, repo_name)
+        repo_path = self.target_dir / repo_name
 
-        if os.path.exists(repo_path):
-            logger.info(f"Repository already exists at {repo_path}")
-            return repo_path
+        if repo_path.exists():
+            logger.info(f"Repository already exists at {repo_path.as_posix()}")
+            return str(repo_path)
 
-        logger.info(f"Cloning {self.repo_url} into {repo_path}...")
-        Repo.clone_from(self.repo_url, repo_path)
-        logger.success(f"Repository cloned successfully to {repo_path}")
-        return repo_path
+        logger.info(f"Cloning {self.repo_url} into {repo_path.as_posix()} ...")
+        Repo.clone_from(self.repo_url, str(repo_path))
+        logger.success(f"Repository cloned successfully to {repo_path.as_posix()}")
+        return str(repo_path)
 
     def _download_via_api(self) -> str:
         headers = {}
@@ -54,17 +54,16 @@ class RepoFetcher:
         res.raise_for_status()
 
         tree = res.json().get("tree", [])
-        temp_dir = tempfile.mkdtemp(prefix=f"{repo}-")
+        temp_dir = Path(tempfile.mkdtemp(prefix=f"{repo}-"))
         for item in tree:
             if item["type"] == "blob":
                 file_url = f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/{item['path']}"
-                local_path = os.path.join(temp_dir, item["path"])
-                os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                local_path = temp_dir / item["path"]
+                local_path.parent.mkdir(parents=True, exist_ok=True)
                 file_res = requests.get(file_url, headers=headers)
                 if file_res.status_code == 200:
-                    with open(local_path, "wb") as f:
-                        f.write(file_res.content)
+                    local_path.write_bytes(file_res.content)
                 else:
                     logger.warning(f"Skipped: {file_url} ({file_res.status_code})")
-        logger.success(f"Repo downloaded to temp dir: {temp_dir}")
-        return temp_dir
+        logger.success(f"Repo downloaded to temp dir: {temp_dir.as_posix()}")
+        return str(temp_dir)

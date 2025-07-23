@@ -4,7 +4,7 @@
 
 import os
 import tempfile
-from unittest.mock import MagicMock, Mock, mock_open, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 import requests
@@ -22,7 +22,10 @@ class TestRepoFetcher:
 
         assert fetcher.repo_url == repo_url
         assert fetcher.mode == "clone"
-        assert fetcher.target_dir == "./repos"
+        # Path("./repos") resolves to "repos" on Windows
+        from pathlib import Path
+
+        assert fetcher.target_dir == Path("./repos")
         assert fetcher.token is None
 
     def test_init_custom_values(self):
@@ -36,7 +39,9 @@ class TestRepoFetcher:
 
         assert fetcher.repo_url == repo_url
         assert fetcher.mode == mode
-        assert fetcher.target_dir == target_dir
+        from pathlib import Path
+
+        assert fetcher.target_dir == Path(target_dir)
         assert fetcher.token == token
 
     def test_fetch_clone_mode(self):
@@ -193,8 +198,11 @@ class TestRepoFetcherClone:
 
         fetcher._clone_repo()
 
-        # Verify info logging for existing repo
-        mock_logger.info.assert_called_with(f"Repository already exists at {repo_path}")
+        # Verify info logging for existing repo (check with Path.as_posix() format)
+        from pathlib import Path
+
+        expected_path = Path(repo_path).as_posix()
+        mock_logger.info.assert_called_with(f"Repository already exists at {expected_path}")
         # Should not call success logger
         mock_logger.success.assert_not_called()
 
@@ -230,8 +238,8 @@ class TestRepoFetcherAPI:
         with (
             patch("requests.get") as mock_get,
             patch("tempfile.mkdtemp", return_value="/tmp/test-repo-12345") as mock_mkdtemp,
-            patch("os.makedirs") as mock_makedirs,
-            patch("builtins.open", mock_open()) as mock_file,
+            patch("pathlib.Path.mkdir") as mock_mkdir,
+            patch("pathlib.Path.write_bytes") as mock_write_bytes,
         ):
 
             # Setup mock responses
@@ -247,13 +255,16 @@ class TestRepoFetcherAPI:
 
             result = fetcher._download_via_api()
 
-            assert result == "/tmp/test-repo-12345"
+            # Normalize path for comparison (Windows vs Unix separators)
+            from pathlib import Path
+
+            assert Path(result) == Path("/tmp/test-repo-12345")
             # Verify API calls
             assert mock_get.call_count == 3  # 1 tree + 2 files
             mock_mkdtemp.assert_called_once_with(prefix="test-repo-")
 
-            mock_makedirs.assert_called()  # Verify directories are created
-            mock_file.assert_called()  # Verify files are opened for writing
+            mock_mkdir.assert_called()  # Verify directories are created
+            mock_write_bytes.assert_called()  # Verify files are written
 
     def test_download_via_api_with_token(self):
         """Test API download with authentication token."""
@@ -293,8 +304,8 @@ class TestRepoFetcherAPI:
         with (
             patch("requests.get") as mock_get,
             patch("tempfile.mkdtemp", return_value="/tmp/test-repo-12345"),
-            patch("os.makedirs"),
-            patch("builtins.open", mock_open()),
+            patch("pathlib.Path.mkdir"),
+            patch("pathlib.Path.write_bytes"),
             patch("gitsage.repo_ingest.repo_fetcher.logger") as mock_logger,
         ):
 
@@ -409,8 +420,8 @@ class TestRepoFetcherIntegration:
         with (
             patch("requests.get") as mock_get,
             patch("tempfile.mkdtemp", return_value="/tmp/test-repo-12345"),
-            patch("os.makedirs"),
-            patch("builtins.open", mock_open()),
+            patch("pathlib.Path.mkdir"),
+            patch("pathlib.Path.write_bytes"),
         ):
 
             mock_tree_resp = Mock()
@@ -425,7 +436,10 @@ class TestRepoFetcherIntegration:
 
             result = fetcher.fetch()
 
-            assert result == "/tmp/test-repo-12345"
+            # Normalize path for comparison (Windows vs Unix separators)
+            from pathlib import Path
+
+            assert Path(result) == Path("/tmp/test-repo-12345")
 
     def test_mode_switching(self):
         """Test that mode can be changed and affects behavior."""

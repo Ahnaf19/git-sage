@@ -46,7 +46,7 @@ def scan_repo(repo_path: Union[str, Path]) -> dict[str, list[str]]:
             elif file_path.name in SUPPORTED_CONFIG_FILES:
                 config_files.append(str(file_path))
 
-    logger.info(f"Scanned repo at {repo_path}")
+    logger.info(f"Scanned repo at {repo_path.as_posix()}")
     logger.debug(f"Found {len(code_files)} code files and {len(config_files)} config files.")
 
     return {"code_files": code_files, "config_files": config_files}

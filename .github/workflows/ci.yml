@@ -81,7 +81,7 @@ jobs:
       - name: Check dependency resolution
         run: |
           uv pip compile requirements.txt --output-file=requirements.check.txt
-          echo "✅ Dependencies resolved successfully"
+          echo "Dependencies resolved successfully"
 
       - name: Security audit
         run: |
@@ -186,7 +186,7 @@ jobs:
       - name: Test CLI functionality
         run: |
           # Test that the main functionality works
-          echo "✅ Integration tests passed"
+          echo "Integration tests passed"
 
   build-test:
     runs-on: ubuntu-latest
@@ -230,4 +230,4 @@ jobs:
       - name: Test installation
         run: |
           uv pip install dist/*.whl
-          python -c "import gitsage; print('✅ Package imports successfully')"
+          python -c "import gitsage; print('Package imports successfully')"

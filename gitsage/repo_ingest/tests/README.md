@@ -67,24 +67,24 @@ pytest gitsage/repo_ingest/tests/ --cov=gitsage.repo_ingest --cov-report=html
 
 Comprehensive unit tests for the `clone_repo` function:
 
-- ✅ Successful cloning scenarios
-- ✅ Edge cases (existing repos, complex URLs, SSH URLs)
-- ✅ Error handling and Git exceptions
-- ✅ Logging verification
-- ✅ Directory creation and path handling
-- ✅ URL parsing for different Git hosting services
+- Successful cloning scenarios
+- Edge cases (existing repos, complex URLs, SSH URLs)
+- Error handling and Git exceptions
+- Logging verification
+- Directory creation and path handling
+- URL parsing for different Git hosting services
 
 ### `test_file_scanner.py`
 
 Unit tests for the `scan_repo` function and constants:
 
-- ✅ File type detection and classification
-- ✅ Directory traversal (including nested structures)
-- ✅ Supported file extensions and config files
-- ✅ Filtering of unsupported file types
-- ✅ Edge cases (empty directories, special characters)
-- ✅ Path handling (absolute paths, string vs Path objects)
-- ✅ Case sensitivity handling
+- File type detection and classification
+- Directory traversal (including nested structures)
+- Supported file extensions and config files
+- Filtering of unsupported file types
+- Edge cases (empty directories, special characters)
+- Path handling (absolute paths, string vs Path objects)
+- Case sensitivity handling
 
 ### `test_integration.py`
 

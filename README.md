@@ -66,7 +66,8 @@ Perfect for onboarding to new projects, code reviews, architectural understandin
 
 ### Repository Management
 
-- **GitHub Integration**: Clone and analyze any public repository
+- **GitHub Integration**: Clone repositories or fetch via GitHub API
+- **Flexible Repository Access**: Choose between git clone (full history) or API fetch (lightweight)
 - **Incremental Updates**: Efficient processing of repository changes
 - **Multi-Repository Support**: Analyze multiple codebases simultaneously
 
@@ -74,9 +75,12 @@ Perfect for onboarding to new projects, code reviews, architectural understandin
 
 ### Phase 1: Repository Ingestion [ON GOING!]
 
-- [ ] **Git Cloning**: Downloads the target repository to local storage
-- [ ] **File Discovery**: Identifies supported source code files
-- [ ] **Language Detection**: Determines programming languages used
+- [x] **Repository Fetching**: Downloads repositories via git clone or GitHub API
+- [x] **File Discovery**: Identifies supported source code and config files
+- [ ] **Language Detection**: Determines programming languages used and focus on files that way
+
+> [!NOTE]
+> Language Detection is skipped for future scope.
 
 ### Phase 2: Code Parsing & Chunking
 
@@ -240,11 +244,69 @@ pre-commit install
 
 ## Running GitSage
 
+### Method 0: Run current (tag 0.1.0) main entrypoint
+
+```bash
+# Basic usage with default settings
+python main.py https://github.com/pallets/flask
+
+# Use GitHub API instead of git clone
+python main.py https://github.com/microsoft/vscode --mode api
+
+# Custom target directory
+python main.py https://github.com/user/repo --target-dir ./my-repos
+
+# With GitHub token for private repos or higher rate limits
+python main.py https://github.com/private/repo --token your_github_token
+
+# SSH URLs also work
+python main.py git@github.com:user/repo.git
+
+# Get help
+python main.py --help
+```
+
+> [!WARNING]
+> Below methods and usages are yet to be implemented. Stay tuned!
+
 ### Method 1: Command Line Interface
 
 ```bash
-# Analyze a GitHub repository
+# Analyze a repository (default: clone mode)
+python -m git_sage.main analyze <repo-url>
+
+# Analyze using GitHub API
+python -m git_sage.main analyze <repo-url> --mode api
+
+# Specify output directory
+python -m git_sage.main analyze <repo-url> --target-dir ./output
+
+# Provide GitHub token for private repos
+python -m git_sage.main analyze <repo-url> --token <your_token>
+
+# Query the codebase
+python -m git_sage.main query "<your question>"
+
+# Interactive Q&A session
+python -m git_sage.main interactive
+
+# Show help for all commands
+python -m git_sage.main --help
+
+# Show help for a specific command
+python -m git_sage.main analyze --help
+
+# Analyze a GitHub repository (clone method - default)
 python -m git_sage analyze https://github.com/user/repository
+
+# Analyze using GitHub API (faster, no git history)
+python -m git_sage analyze https://github.com/user/repository --mode api
+
+# Specify target directory for cloned repos
+python -m git_sage analyze https://github.com/user/repository --target-dir ./my-repos
+
+# Use GitHub token for private repos or higher rate limits
+python -m git_sage analyze https://github.com/user/private-repo --token your_github_token
 
 # Ask questions about the codebase
 python -m git_sage query "How does authentication work in this project?"
@@ -261,8 +323,15 @@ from git_sage import GitSage
 # Initialize GitSage
 sage = GitSage()
 
-# Analyze a repository
+# Analyze a repository using git clone (default)
 sage.analyze_repository("https://github.com/user/repository")
+
+# Analyze using GitHub API (faster for large repos)
+sage.analyze_repository(
+    "https://github.com/user/repository",
+    mode="api",
+    token="your_github_token"  # Optional for private repos
+)
 
 # Ask questions
 response = sage.query("Explain the main application structure")
@@ -290,7 +359,15 @@ sage.interactive_session()
 
 ```bash
 $ python -m git_sage analyze https://github.com/fastapi/fastapi
-Repository cloned successfully
+Repository fetched successfully (clone mode)
+Parsing 157 source files...
+Generating embeddings...
+Storing in vector database...
+Analysis complete! Ready for queries.
+
+# Using GitHub API for faster analysis
+$ python -m git_sage analyze https://github.com/fastapi/fastapi --mode api
+Repository fetched via GitHub API
 Parsing 157 source files...
 Generating embeddings...
 Storing in vector database...
@@ -319,15 +396,15 @@ Would you like me to explain any specific part in more detail?
 ### Advanced Analysis
 
 ```python
-# Analyze multiple repositories
+# Analyze multiple repositories with different methods
 sage = GitSage()
 repos = [
-    "https://github.com/fastapi/fastapi",
-    "https://github.com/tiangolo/full-stack-fastapi-postgresql"
+    {"url": "https://github.com/fastapi/fastapi", "mode": "clone"},
+    {"url": "https://github.com/tiangolo/full-stack-fastapi-postgresql", "mode": "api"}
 ]
 
 for repo in repos:
-    sage.analyze_repository(repo)
+    sage.analyze_repository(repo["url"], mode=repo["mode"])
 
 # Cross-repository queries
 response = sage.query(
