@@ -178,15 +178,10 @@ jobs:
 
       - name: Run integration tests
         run: |
-          uv run python main.py
+          uv run python main.py https://github.com/pallets/flask --mode clone
         env:
           # Add any environment variables needed for integration tests
           PYTHONPATH: ${{ github.workspace }}
-
-      - name: Test CLI functionality
-        run: |
-          # Test that the main functionality works
-          echo "Integration tests passed"
 
   build-test:
     runs-on: ubuntu-latest
