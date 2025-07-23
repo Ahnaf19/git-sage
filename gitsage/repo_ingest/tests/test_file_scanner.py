@@ -1,4 +1,4 @@
-# gitsage/ingest/tests/test_file_scanner.py
+# gitsage/repo_ingest/tests/test_file_scanner.py
 
 """Unit tests for the file_scanner module."""
 
@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import pytest
 
-from ..file_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES, scan_repo
+from ..repo_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES, scan_repo
 
 
 class TestFileScannerConstants:
@@ -188,7 +188,7 @@ class TestScanRepo:
         for file_path in all_files:
             assert isinstance(file_path, str)
 
-    @patch("gitsage.ingest.file_scanner.logger")
+    @patch("gitsage.repo_ingest.repo_scanner.logger")
     def test_scan_repo_logging(self, mock_logger, temp_repo):
         """Test that appropriate logging messages are generated."""
         scan_repo(temp_repo)

@@ -1,12 +1,12 @@
 # main.py
 
-from gitsage.ingest.file_scanner import scan_repo
-from gitsage.ingest.repo_cloner import clone_repo
+from gitsage.repo_ingest.repo_fetcher import RepoFetcher
+from gitsage.repo_ingest.repo_scanner import scan_repo
 
 
 def main(url: str = "https://github.com/pallets/flask"):
-    github_url = url  # replace with real URL
-    repo_path = clone_repo(github_url)
+    fetcher = RepoFetcher(url, mode="clone")
+    repo_path = fetcher.fetch()
     _ = scan_repo(repo_path)
 
 

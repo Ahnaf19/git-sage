@@ -1,6 +1,6 @@
-# gitsage/ingest/tests/test_integration.py
+# gitsage/repo_ingest/tests/test_integration.py
 
-"""Integration tests for the ingest module."""
+"""Integration tests for the repo_ingest module."""
 
 import tempfile
 from pathlib import Path
@@ -8,8 +8,8 @@ from unittest.mock import patch
 
 import pytest
 
-from ..file_scanner import scan_repo
-from ..repo_cloner import clone_repo
+from ..repo_fetcher import RepoFetcher
+from ..repo_scanner import scan_repo
 
 
 class TestIngestIntegration:
@@ -150,8 +150,8 @@ __pycache__/
 
             yield repo_path
 
-    @patch("gitsage.ingest.repo_cloner.Repo")
-    def test_clone_and_scan_workflow(self, mock_repo_class, mock_git_repo_with_files):
+    @patch("gitsage.repo_ingest.repo_fetcher.Repo")
+    def test_clone_and_scan_workflow(self, mock_repo, mock_git_repo_with_files):
         """Test the complete workflow of cloning and scanning a repository."""
         with tempfile.TemporaryDirectory() as temp_clone_dir:
             # Mock the clone operation to copy our test repo
@@ -160,11 +160,12 @@ __pycache__/
 
                 shutil.copytree(mock_git_repo_with_files, path)
 
-            mock_repo_class.clone_from.side_effect = mock_clone_from
+            mock_repo.clone_from.side_effect = mock_clone_from
 
             # Step 1: Clone the repository
             repo_url = "https://github.com/test/test-repo.git"
-            cloned_path = clone_repo(repo_url, temp_clone_dir)
+            fetcher = RepoFetcher(repo_url, mode="clone", target_dir=temp_clone_dir)
+            cloned_path = fetcher.fetch()
 
             # Verify clone operation
             assert Path(cloned_path).exists()
@@ -194,7 +195,7 @@ __pycache__/
             for expected_file in expected_config_files:
                 assert expected_file in config_file_names
 
-    @patch("gitsage.ingest.repo_cloner.Repo")
+    @patch("gitsage.repo_ingest.repo_fetcher.Repo")
     def test_clone_existing_then_scan(self, mock_repo_class, mock_git_repo_with_files):
         """Test scanning a repository that already exists locally."""
         with tempfile.TemporaryDirectory() as temp_clone_dir:
@@ -206,7 +207,8 @@ __pycache__/
 
             # Attempt to clone (should detect existing repo)
             repo_url = "https://github.com/test/test-repo.git"
-            cloned_path = clone_repo(repo_url, temp_clone_dir)
+            fetcher = RepoFetcher(repo_url, mode="clone", target_dir=temp_clone_dir)
+            cloned_path = fetcher.fetch()
 
             # Should return existing path without cloning
             assert cloned_path == str(target_path)
@@ -228,7 +230,7 @@ __pycache__/
             assert scan_result["code_files"] == []
             assert scan_result["config_files"] == []
 
-    @patch("gitsage.ingest.repo_cloner.Repo")
+    @patch("gitsage.repo_ingest.repo_fetcher.Repo")
     def test_real_world_repo_structure(self, mock_repo_class):
         """Test with a more complex, real-world-like repository structure."""
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -283,7 +285,8 @@ __pycache__/
 
             # Test the workflow
             with tempfile.TemporaryDirectory() as clone_dir:
-                cloned_path = clone_repo("https://github.com/test/complex-repo.git", clone_dir)
+                fetcher = RepoFetcher("https://github.com/test/complex-repo.git", mode="clone", target_dir=clone_dir)
+                cloned_path = fetcher.fetch()
                 scan_result = scan_repo(cloned_path)
 
                 # Verify comprehensive scanning
@@ -305,18 +308,19 @@ __pycache__/
 
         # Test cloning to a file (not directory) - should handle gracefully
         with tempfile.NamedTemporaryFile() as temp_file:
-            with patch("gitsage.ingest.repo_cloner.Repo") as mock_repo:
+            with patch("gitsage.repo_ingest.repo_fetcher.Repo") as mock_repo:
                 mock_repo.clone_from.side_effect = Exception("Cannot clone to file")
 
                 with pytest.raises(Exception):
-                    clone_repo("https://github.com/test/repo.git", temp_file.name)
+                    fetcher = RepoFetcher("https://github.com/test/repo.git", mode="clone", target_dir=temp_file.name)
+                    fetcher.fetch()
 
-    @patch("gitsage.ingest.repo_cloner.logger")
-    @patch("gitsage.ingest.file_scanner.logger")
+    @patch("gitsage.repo_ingest.repo_fetcher.logger")
+    @patch("gitsage.repo_ingest.repo_scanner.logger")
     def test_logging_integration(self, scanner_logger, cloner_logger, mock_git_repo_with_files):
         """Test that logging works correctly across both modules."""
         with tempfile.TemporaryDirectory() as temp_clone_dir:
-            with patch("gitsage.ingest.repo_cloner.Repo") as mock_repo:
+            with patch("gitsage.repo_ingest.repo_fetcher.Repo") as mock_repo:
 
                 def mock_clone_from(url, path):
                     import shutil
@@ -326,7 +330,8 @@ __pycache__/
                 mock_repo.clone_from.side_effect = mock_clone_from
 
                 # Execute the workflow
-                cloned_path = clone_repo("https://github.com/test/repo.git", temp_clone_dir)
+                fetcher = RepoFetcher("https://github.com/test/repo.git", mode="clone", target_dir=temp_clone_dir)
+                cloned_path = fetcher.fetch()
                 scan_repo(cloned_path)
 
                 # Verify both modules logged appropriately
@@ -335,7 +340,7 @@ __pycache__/
                 scanner_logger.info.assert_called()
                 scanner_logger.debug.assert_called()
 
-    @patch("gitsage.ingest.repo_cloner.Repo")
+    @patch("gitsage.repo_ingest.repo_fetcher.Repo")
     def test_multiple_repos_workflow(self, mock_repo_class, mock_git_repo_with_files):
         """Test cloning and scanning multiple repositories."""
         with tempfile.TemporaryDirectory() as temp_clone_dir:
@@ -355,7 +360,8 @@ __pycache__/
 
             results = []
             for repo_url in repos:
-                cloned_path = clone_repo(repo_url, temp_clone_dir)
+                fetcher = RepoFetcher(repo_url, mode="clone", target_dir=temp_clone_dir)
+                cloned_path = fetcher.fetch()
                 scan_result = scan_repo(cloned_path)
                 results.append((cloned_path, scan_result))
 

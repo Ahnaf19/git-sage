@@ -1,11 +1,11 @@
 # GitSage Ingest Module Tests
 
-This directory contains unit and integration tests for the `gitsage.ingest` module.
+This directory contains unit and integration tests for the `gitsage.repo_ingest` module.
 
 ## Test Structure
 
 ```
-gitsage/ingest/tests/
+gitsage/repo_ingest/tests/
 ├── __init__.py              # Test package initialization
 ├── conftest.py              # Shared pytest configuration and fixtures
 ├── test_repo_cloner.py      # Unit tests for repository cloning
@@ -36,23 +36,23 @@ uv pip install -r requirements-dev.txt
 pytest
 
 # Run all ingest tests from project root
-pytest gitsage/ingest/
+pytest gitsage/repo_ingest/
 
 # Run all ingest tests from ingest directory
-cd gitsage/ingest/
+cd gitsage/repo_ingest/
 pytest tests/
 
 # Run specific test file
-pytest gitsage/ingest/tests/test_repo_cloner.py
+pytest gitsage/repo_ingest/tests/test_repo_cloner.py
 
 # Run specific test function
-pytest gitsage/ingest/tests/test_repo_cloner.py::TestCloneRepo::test_clone_repo_success
+pytest gitsage/repo_ingest/tests/test_repo_cloner.py::TestCloneRepo::test_clone_repo_success
 
 # Run with verbose output (in detailed for debugging)
-pytest gitsage/ingest/tests/ -v
+pytest gitsage/repo_ingest/tests/ -v
 
 # Run with coverage for ingest module only
-pytest gitsage/ingest/tests/ --cov=gitsage.ingest --cov-report=html
+pytest gitsage/repo_ingest/tests/ --cov=gitsage.repo_ingest --cov-report=html
 ```
 
 ### Test Categories
@@ -118,7 +118,7 @@ Tests for module initialization and structure:
 ## Running Specific Test Types
 
 ```bash
-cd gitsage/ingest/
+cd gitsage/repo_ingest/
 
 # Run only unit tests for repo_cloner
 pytest tests/test_repo_cloner.py
@@ -222,7 +222,7 @@ These tests are designed to run in CI/CD environments with:
 ### Debug Tests
 
 ```bash
-cd gitsage/ingest/
+cd gitsage/repo_ingest/
 
 # Run with extra verbose output
 pytest tests/ -vvs

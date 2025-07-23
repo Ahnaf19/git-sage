@@ -1,6 +1,6 @@
-# gitsage/ingest/tests/test_init.py
+# gitsage/repo_ingest/tests/test_init.py
 
-"""Test cases for the gitsage.ingest module initialization."""
+"""Test cases for the gitsage.repo_ingest module initialization."""
 
 import pytest
 
@@ -11,26 +11,16 @@ class TestIngestModule:
     def test_import_ingest_module(self):
         """Test that the ingest module can be imported."""
         try:
-            from gitsage import ingest
+            from gitsage import repo_ingest
 
-            assert ingest is not None
+            assert repo_ingest is not None
         except ImportError:
-            pytest.fail("Could not import gitsage.ingest module")
-
-    def test_import_repo_cloner(self):
-        """Test that repo_cloner can be imported from ingest."""
-        try:
-            from ..repo_cloner import clone_repo
-
-            assert clone_repo is not None
-            assert callable(clone_repo)
-        except ImportError:
-            pytest.fail("Could not import clone_repo from repo_cloner")
+            pytest.fail("Could not import gitsage.repo_ingest module")
 
     def test_import_file_scanner(self):
         """Test that file_scanner can be imported from ingest."""
         try:
-            from ..file_scanner import scan_repo
+            from ..repo_scanner import scan_repo
 
             assert scan_repo is not None
             assert callable(scan_repo)
@@ -40,7 +30,7 @@ class TestIngestModule:
     def test_import_constants(self):
         """Test that constants can be imported from file_scanner."""
         try:
-            from ..file_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES
+            from ..repo_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES
 
             assert SUPPORTED_CODE_EXTS is not None
             assert SUPPORTED_CONFIG_FILES is not None
@@ -53,14 +43,14 @@ class TestIngestModule:
         """Test that the module has the expected structure."""
         from pathlib import Path
 
-        # Get the ingest module directory
-        ingest_dir = Path(__file__).parent.parent
+        # Get the repo_ingest module directory
+        repo_ingest_dir = Path(__file__).parent.parent
 
         # Check that expected files exist
         expected_files = [
-            ingest_dir / "__init__.py",
-            ingest_dir / "repo_cloner.py",
-            ingest_dir / "file_scanner.py",
+            repo_ingest_dir / "__init__.py",
+            repo_ingest_dir / "repo_fetcher.py",
+            repo_ingest_dir / "repo_scanner.py",
         ]
 
         for expected_file in expected_files:
@@ -68,15 +58,17 @@ class TestIngestModule:
 
     def test_function_signatures(self):
         """Test that functions have expected signatures."""
-        # Test clone_repo signature
+        # Test RepoFetcher signature
         import inspect
 
-        from ..file_scanner import scan_repo
-        from ..repo_cloner import clone_repo
+        from ..repo_fetcher import RepoFetcher
+        from ..repo_scanner import scan_repo
 
-        clone_sig = inspect.signature(clone_repo)
-        assert "repo_url" in clone_sig.parameters
-        assert "clone_dir" in clone_sig.parameters
+        # Test RepoFetcher constructor
+        fetcher_sig = inspect.signature(RepoFetcher.__init__)
+        assert "repo_url" in fetcher_sig.parameters
+        assert "mode" in fetcher_sig.parameters
+        assert "target_dir" in fetcher_sig.parameters
 
         # Test scan_repo signature
         scan_sig = inspect.signature(scan_repo)
@@ -85,11 +77,11 @@ class TestIngestModule:
     def test_all_imports_work(self):
         """Test that all main functionality can be imported together."""
         try:
-            from ..file_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES, scan_repo
-            from ..repo_cloner import clone_repo
+            from ..repo_fetcher import RepoFetcher
+            from ..repo_scanner import SUPPORTED_CODE_EXTS, SUPPORTED_CONFIG_FILES, scan_repo
 
             # Verify all are accessible
-            assert callable(clone_repo)
+            assert callable(RepoFetcher)
             assert callable(scan_repo)
             assert isinstance(SUPPORTED_CODE_EXTS, set)
             assert isinstance(SUPPORTED_CONFIG_FILES, set)
