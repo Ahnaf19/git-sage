@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitsage"
+description = "LLM-powered tool for GitHub repository analysis"
+readme = "README.md"
+requires-python = ">=3.12.11"
+license = "Apache-2.0"
+authors = [
+    {name = "Ahnaf Tanjid", email = "ahnaftanjid19@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+dynamic = ["version"]
+dependencies = [
+    "langchain==0.3.26",
+    "chromadb==1.0.15",
+    "tree-sitter==0.25.0",
+    "pre-commit==4.2.0",
+    "ollama==0.5.1",
+    "uv==0.8.0",
+    "fastapi==0.116.1",
+    "uvicorn==0.35.0",
+    "loguru==0.7.3",
+    "importlib-metadata==4.13.0",
+    "requests==2.32.4",
+    "gitpython==3.1.44",
+]
+
+[tool.pytest.ini_options]
+# Test discovery configuration
+# testpaths = ["gitsage"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Explicitly ignore the repos directory and its subdirectories
+norecursedirs = [
+    "repos",
+    "repos/*",
+    ".git",
+    ".tox",
+    "dist",
+    "build",
+    "*.egg",
+    ".venv",
+    "venv",
+    "env",
+    ".env"
+]
+
+# Additional pytest options
+addopts = [
+    "--strict-markers",
+    "--ignore=repos",
+]
+
+# Custom markers
+markers = [
+    "unit: Unit tests for individual functions",
+    "integration: Integration tests for workflows",
+    "slow: Slow running tests",
+]
+
+[tool.setuptools_scm]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["gitsage*"]
+exclude = ["repos*", "tests*", "docs*"]
