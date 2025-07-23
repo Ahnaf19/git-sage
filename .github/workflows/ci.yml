@@ -110,8 +110,7 @@ jobs:
 
       - name: Set up Python environment
         run: |
-          uv python install ${{ matrix.python-version }}
-          uv venv --python ${{ matrix.python-version }}
+          uv venv --system
 
       - name: Install dependencies
         run: |
