@@ -3,7 +3,21 @@
 GitSage is an open-source LLM-powered tool that explains and answers questions about any GitHub repository. Built using LangChain, Ollama, Tree-sitter, and ChromaDB, it lets developers query unfamiliar codebases like a personal AI mentor.
 
 > [!NOTE]
-> Being Developed with Python 3.12 and tested on macOS/Linux environments. Some parts of the following are under development.
+> Being Developed with Python 3.12 and tested on macOS/Linux environments for Python 3.10-3.13. Some parts of the following are under development.
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![LangChain](https://img.shields.io/badge/langchain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![Ollama](https://img.shields.io/badge/ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/chromadb-FF6B6B?style=for-the-badge&logo=database&logoColor=white)
+![uv](https://img.shields.io/badge/uv-3C3C3C?style=for-the-badge&logo=uv&logoColor=white)
+![Uvicorn](https://img.shields.io/badge/uvicorn-0E1E25?style=for-the-badge&logo=uvicorn&logoColor=white)
+![Loguru](https://img.shields.io/badge/loguru-FF8700?style=for-the-badge&logo=loguru&logoColor=white)
+![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue?style=for-the-badge)
+
+[![CI](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml/badge.svg)](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Ahnaf19/git-sage/branch/main/graph/badge.svg)](https://codecov.io/gh/Ahnaf19/git-sage)
+[![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://github.com/Ahnaf19/git-sage)
+[![Code style: pre-commit](https://img.shields.io/badge/code%20style-pre--commit-brightgreen)](https://github.com/pre-commit/pre-commit)
 
 ## Table of Contents
 
@@ -18,19 +32,6 @@ GitSage is an open-source LLM-powered tool that explains and answers questions a
 - [Contributing](#contributing)
 - [Learning Objectives](#learning-objectives)
 - [License](#license)
-
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![LangChain](https://img.shields.io/badge/langchain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
-![Ollama](https://img.shields.io/badge/ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)
-![ChromaDB](https://img.shields.io/badge/chromadb-FF6B6B?style=for-the-badge&logo=database&logoColor=white)
-![uv](https://img.shields.io/badge/uv-3C3C3C?style=for-the-badge&logo=uv&logoColor=white)
-![Uvicorn](https://img.shields.io/badge/uvicorn-0E1E25?style=for-the-badge&logo=uvicorn&logoColor=white)
-![Loguru](https://img.shields.io/badge/loguru-FF8700?style=for-the-badge&logo=loguru&logoColor=white)
-![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-blue?style=for-the-badge)
-
-[![CI](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml/badge.svg)](https://github.com/Ahnaf19/git-sage/actions/workflows/ci.yml)
-[![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://github.com/Ahnaf19/git-sage)
-[![Code style: pre-commit](https://img.shields.io/badge/code%20style-pre--commit-brightgreen)](https://github.com/pre-commit/pre-commit)
 
 ## Overview
 

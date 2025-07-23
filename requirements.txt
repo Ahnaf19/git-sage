@@ -7,6 +7,6 @@ ollama==0.5.1
 fastapi==0.116.1
 uvicorn==0.35.0
 loguru==0.7.3
-importlib-metadata<5
-requests
-gitpython
+importlib-metadata==4.13.0
+requests==2.32.4
+gitpython==3.1.44

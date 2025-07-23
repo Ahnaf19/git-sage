@@ -37,6 +37,13 @@ click==8.2.1
     # via
     #   typer
     #   uvicorn
+colorama==0.4.6
+    # via
+    #   build
+    #   click
+    #   loguru
+    #   tqdm
+    #   uvicorn
 coloredlogs==15.0.1
     # via onnxruntime
 deprecated==1.2.18
@@ -65,6 +72,8 @@ google-auth==2.40.3
     # via kubernetes
 googleapis-common-protos==1.70.0
     # via opentelemetry-exporter-otlp-proto-grpc
+greenlet==3.2.3
+    # via sqlalchemy
 grpcio==1.73.1
     # via
     #   chromadb
@@ -73,8 +82,6 @@ h11==0.16.0
     # via
     #   httpcore
     #   uvicorn
-hf-xet==1.1.5
-    # via huggingface-hub
 httpcore==1.0.9
     # via httpx
 httptools==0.6.4
@@ -208,6 +215,8 @@ pypika==0.48.9
     # via chromadb
 pyproject-hooks==1.2.0
     # via build
+pyreadline3==3.5.4
+    # via humanfriendly
 python-dateutil==2.9.0.post0
     # via
     #   kubernetes
@@ -313,8 +322,6 @@ uvicorn==0.35.0
     # via
     #   -r requirements.txt
     #   chromadb
-uvloop==0.21.0
-    # via uvicorn
 virtualenv==20.32.0
     # via pre-commit
 watchfiles==1.1.0
@@ -323,6 +330,8 @@ websocket-client==1.8.0
     # via kubernetes
 websockets==15.0.1
     # via uvicorn
+win32-setctime==1.2.0
+    # via loguru
 wrapt==1.17.2
     # via deprecated
 zipp==3.23.0
