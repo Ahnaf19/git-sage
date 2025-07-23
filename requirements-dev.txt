@@ -3,6 +3,6 @@ pytest==8.4.1
 pytest-cov==6.1.0
 pytest-xdist==3.8.0
 pre-commit==4.2.0
-safety==4.0.2
+safety==3.6.0
 build==1.2.2.post1
 twine==6.1.0

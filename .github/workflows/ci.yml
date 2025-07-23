@@ -73,6 +73,11 @@ jobs:
         with:
           version: "latest"
 
+      - name: Set up virtualenv
+        run: |
+          uv python install 3.12
+          uv venv --python 3.12
+
       - name: Check dependency resolution
         run: |
           uv pip compile requirements.txt --output-file=requirements.check.txt
