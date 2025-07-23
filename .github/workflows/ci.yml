@@ -167,6 +167,11 @@ jobs:
         with:
           version: "latest"
 
+      - name: Set up virtualenv
+        run: |
+          uv python install 3.12
+          uv venv --python 3.12
+
       - name: Install dependencies
         run: |
           uv pip install -r requirements-dev.txt
@@ -203,6 +208,11 @@ jobs:
       - name: Clean old builds
         run: |
           rm -rf dist/
+
+      - name: Set up virtualenv
+        run: |
+          uv python install 3.12
+          uv venv --python 3.12
 
       - name: Install build dependencies
         run: |
