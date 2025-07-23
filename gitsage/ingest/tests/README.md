@@ -32,24 +32,27 @@ uv pip install -r requirements-dev.txt
 ### Basic Test Execution
 
 ```bash
+# Run all tests of whole repo
+pytest
+
 # Run all ingest tests from project root
-pytest gitsage/ingest/tests/
+pytest gitsage/ingest/
 
 # Run all ingest tests from ingest directory
-cd gitsage/ingest
+cd gitsage/ingest/
 pytest tests/
 
 # Run specific test file
-pytest tests/test_repo_cloner.py
+pytest gitsage/ingest/tests/test_repo_cloner.py
 
 # Run specific test function
-pytest tests/test_repo_cloner.py::TestCloneRepo::test_clone_repo_success
+pytest gitsage/ingest/tests/test_repo_cloner.py::TestCloneRepo::test_clone_repo_success
 
-# Run with verbose output
-pytest tests/ -v
+# Run with verbose output (in detailed for debugging)
+pytest gitsage/ingest/tests/ -v
 
 # Run with coverage for ingest module only
-pytest tests/ --cov=gitsage.ingest --cov-report=html
+pytest gitsage/ingest/tests/ --cov=gitsage.ingest --cov-report=html
 ```
 
 ### Test Categories
@@ -115,6 +118,8 @@ Tests for module initialization and structure:
 ## Running Specific Test Types
 
 ```bash
+cd gitsage/ingest/
+
 # Run only unit tests for repo_cloner
 pytest tests/test_repo_cloner.py
 
@@ -217,6 +222,8 @@ These tests are designed to run in CI/CD environments with:
 ### Debug Tests
 
 ```bash
+cd gitsage/ingest/
+
 # Run with extra verbose output
 pytest tests/ -vvs
 
