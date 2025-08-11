@@ -182,7 +182,7 @@ packaging==25.0
     #   onnxruntime
 platformdirs==4.3.8
     # via virtualenv
-posthog==5.4.0
+posthog==6.5.0
     # via chromadb
 pre-commit==4.2.0
     # via -r requirements.txt
