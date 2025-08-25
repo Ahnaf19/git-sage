@@ -2,7 +2,7 @@ langchain==0.3.26
 chromadb==1.0.15
 tree-sitter==0.25.0
 pre-commit==4.2.0
-uv==0.8.0
+uv==0.8.13
 ollama==0.5.1
 fastapi==0.116.1
 uvicorn==0.35.0
