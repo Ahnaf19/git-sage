@@ -161,7 +161,7 @@ opentelemetry-exporter-otlp-proto-grpc==1.16.0
     # via chromadb
 opentelemetry-proto==1.16.0
     # via opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-sdk==1.16.0
+opentelemetry-sdk==1.37.0
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
