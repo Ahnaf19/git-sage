@@ -316,7 +316,7 @@ urllib3==2.5.0
     # via
     #   kubernetes
     #   requests
-uv==0.8.0
+uv==0.8.22
     # via -r requirements.txt
 uvicorn==0.35.0
     # via
