@@ -118,7 +118,7 @@ kubernetes==33.1.0
     # via chromadb
 langchain==0.3.26
     # via -r requirements.txt
-langchain-core==0.3.70
+langchain-core==0.3.80
     # via
     #   langchain
     #   langchain-text-splitters
