@@ -186,7 +186,7 @@ posthog==5.4.0
     # via chromadb
 pre-commit==4.2.0
     # via -r requirements.txt
-protobuf==4.25.8
+protobuf==5.29.6
     # via
     #   googleapis-common-protos
     #   onnxruntime
