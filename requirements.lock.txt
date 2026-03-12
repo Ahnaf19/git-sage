@@ -167,7 +167,7 @@ opentelemetry-sdk==1.16.0
     #   opentelemetry-exporter-otlp-proto-grpc
 opentelemetry-semantic-conventions==0.37b0
     # via opentelemetry-sdk
-orjson==3.11.0
+orjson==3.11.6
     # via
     #   chromadb
     #   langsmith
