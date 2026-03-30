@@ -209,7 +209,7 @@ pydantic==2.11.7
     #   ollama
 pydantic-core==2.33.2
     # via pydantic
-pygments==2.19.2
+pygments==2.20.0
     # via rich
 pypika==0.48.9
     # via chromadb
